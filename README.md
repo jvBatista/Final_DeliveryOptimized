@@ -1,6 +1,6 @@
 # DeliveryOptimized
 
-*Número da Lista**: 18<br>
+**Número da Lista**: 18<br>
 **Conteúdo da Disciplina**: Final<br>
 
 ## Alunos
