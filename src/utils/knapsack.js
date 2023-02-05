@@ -10,6 +10,25 @@ const buildTable = (n , max) => {
     return K;
 }
 
+// const fillTable = (n, max, values, weights) => {
+//     let K = buildTable(n , max);
+
+//     for (let i = 0; i <= n; i++) {
+//         for (let w = 0; w <= max; w++) {
+//             if (i == 0 || w == 0)
+//                 K[i][w] = 0;
+//             else if (weights[i - 1] <= w)
+//                 K[i][w] = Math.max(values[i - 1] +
+//                     K[i - 1][w - weights[i - 1]],
+//                     K[i - 1][w]);
+//             else
+//                 K[i][w] = K[i - 1][w];
+//         }
+//     }
+
+//     return K;
+// }
+
 const fillTable = (n, max, values, weights) => {
     let K = buildTable(n , max);
 
@@ -17,10 +36,8 @@ const fillTable = (n, max, values, weights) => {
         for (let w = 0; w <= max; w++) {
             if (i == 0 || w == 0)
                 K[i][w] = 0;
-            else if (weights[i - 1] <= w)
-                K[i][w] = Math.max(values[i - 1] +
-                    K[i - 1][w - weights[i - 1]],
-                    K[i - 1][w]);
+            else if (weights[i - 1] <= w) // calcula distancia entre posição atual e prox destino calcDist(item[i-1].pos, item[i-1].pos)
+                K[i][w] = Math.max(values[i - 1] + K[i - 1][w - weights[i - 1]], K[i - 1][w]);
             else
                 K[i][w] = K[i - 1][w];
         }
@@ -35,10 +52,20 @@ const findSolution = (max, weights, values, n, K, result) => {
     let w = max;
 
     for (let i = n; i > 0 && res > 0; i--) {
+
+        // either the result comes from the top
+        // (K[i-1][w]) or from (values[i-1] + K[i-1]
+        // [w-weights[i-1]]) as in Knapsack table. If
+        // it comes from the latter one/ it means
+        // the item is included.
         if (res == K[i - 1][w]) continue;
         else {
+
+            // This item is included.
             solution.push(weights[i - 1]);
 
+            // Since this weight is included its
+            // valuesue is deducted
             res = res - values[i - 1];
             w = w - weights[i - 1];
         }
