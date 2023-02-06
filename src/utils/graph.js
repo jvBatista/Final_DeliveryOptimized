@@ -23,7 +23,6 @@ export class WeightedGraph {
 
       for (let vertex in this.adjList) {
         if (vertex == start) {
-          console.log('vertex', vertex);
           distances[vertex] = 0;
           nodes.enQueue(vertex, 0);
         } else {

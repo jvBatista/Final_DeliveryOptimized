@@ -9,9 +9,16 @@ export function MainPage() {
     const [walkableTiles, setWalkableTiles] = useState([]);
     const [destinations, setDestinations] = useState([]);
     const [startPosition, setStartPosition] = useState();
-    const [endPosition, setEndPosition] = useState();
+    const [endPosition, setEndPosition] = useState(3);
     const [errorMessage, setErrorMessage] = useState("");
     const [path, setPath] = useState([]);
+
+    const tileWeights = {
+        "floor": 1,
+        "flowers": 2,
+        "sticks": 3,
+        "rock": 5
+    }
 
     const handleLinkTiles = (graph) => {
         walkableTiles.map(tile => {
@@ -25,7 +32,7 @@ export function MainPage() {
                 })
                 .map(neighbor => {
                     if (!graph.adjList[tile.position].find(element => element.node == neighbor.position))
-                        graph.addEdge(tile.position, neighbor.position, 1);
+                        graph.addEdge(tile.position, neighbor.position, tileWeights[tile.type]);
                 })
         })
     }
@@ -37,9 +44,9 @@ export function MainPage() {
 
         handleLinkTiles(graph);
 
-        // const result = graph.dijkstraSearch(parseInt(startPosition), parseInt(endPosition));
-        // console.log(result);
-        // setPath(result);
+        const result = graph.dijkstraSearch(parseInt(startPosition), parseInt(endPosition));
+        console.log(result);
+        setPath(result);
     }
 
     const buildMap = () => {
@@ -100,7 +107,7 @@ export function MainPage() {
         let newDestinations = [];
 
         tiles.map((tile) => {
-            if (tile.type == 'floor') newWalkables.push(tile);
+            if (tile.type != 'tree') newWalkables.push(tile);
             else if (tile.type == 'pokemon') newDestinations.push(tile);
         })
 
