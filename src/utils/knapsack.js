@@ -35,20 +35,10 @@ const findSolution = (max, weights, values, n, K, result) => {
     let w = max;
 
     for (let i = n; i > 0 && res > 0; i--) {
-
-        // either the result comes from the top
-        // (K[i-1][w]) or from (values[i-1] + K[i-1]
-        // [w-weights[i-1]]) as in Knapsack table. If
-        // it comes from the latter one/ it means
-        // the item is included.
         if (res == K[i - 1][w]) continue;
         else {
-
-            // This item is included.
             solution.push(weights[i - 1]);
 
-            // Since this weight is included its
-            // valuesue is deducted
             res = res - values[i - 1];
             w = w - weights[i - 1];
         }
@@ -70,48 +60,7 @@ export const knapsack = (max, items) => {
 
     const result = table[n][max];
     const solution = findSolution(max, weights, values, n, table, result);
-    const solutionItems = solution.map(weight => items.find(item => item.space == weight).name);
+    const solutionItems = solution.map(weight => items.find(item => item.space == weight));
 
     return { result, solutionItems }
 }
-
-let W = 500;
-const items = [
-    {
-        name: "berry",
-        space: 30,
-        price: 40
-    },
-    {
-        name: "evo_stone",
-        space: 150,
-        price: 400
-    },
-    {
-        name: "fossil",
-        space: 250,
-        price: 500
-    },
-    {
-        name: "greatball",
-        space: 75,
-        price: 250
-    },
-    {
-        name: "mega_stone",
-        space: 20,
-        price: 750
-    },
-    {
-        name: "potion",
-        space: 100,
-        price: 100
-    },
-    {
-        name: "tm",
-        space: 25,
-        price: 200
-    },
-]
-
-knapsack(W, items);

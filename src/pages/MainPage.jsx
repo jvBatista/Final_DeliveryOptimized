@@ -9,20 +9,29 @@ export function MainPage() {
     const [tiles, setTiles] = useState([]);
     const [interactEnabled, setInteractEnabled] = useState(false);
     const [walkableTiles, setWalkableTiles] = useState([]);
-    const [destinations, setDestinations] = useState([]);
+    const [possibleDestinations, setPossibleDestinations] = useState([]);
     const [startPosition, setStartPosition] = useState();
-    const [endPosition, setEndPosition] = useState(3);
     const [errorMessage, setErrorMessage] = useState("");
     const [path, setPath] = useState([]);
 
-    const bestItems = () => {
-        const destinationItems = destinations.map(destination => destination.type);
-        const availableItems = destinationItems.map(destinationItem =>
-            items.find(item => item.name == destinationItem)
-        )
+    const closeToPlayer = (a, b) => {
+        const distA = Math.abs(a - startPosition);
+        const distB = Math.abs(b - startPosition);
 
-        const result = knapsack(500, availableItems);
-        console.log(result)
+        if (distA < distB) return -1;
+        else if (distA > distB) return 1;
+        return 0;
+    }
+
+    const bestItems = () => {
+        const availableItems = possibleDestinations.map(possibleDestination => {
+            const basicItem = items.find(item => item.name == possibleDestination.type);
+            return { ...basicItem, position: possibleDestination.position }
+        })
+
+        const result = knapsack(10, availableItems);
+        console.log(result.solutionItems)
+        return result;
     }
 
     const handleLinkTiles = (graph) => {
@@ -37,22 +46,34 @@ export function MainPage() {
                 })
                 .map(neighbor => {
                     if (!graph.adjList[tile.position].find(element => element.node == neighbor.position))
-                        graph.addEdge(tile.position, neighbor.position, tileWeights[tile.type]);
+                        graph.addEdge(tile.position, neighbor.position, tileWeights[tile.type] || 1);
                 })
         })
     }
 
     const handleSearch = () => {
-        // const graph = new WeightedGraph();
+        const { result, solutionItems } = bestItems();
+        let destinations = solutionItems.map(item => item.position);
+        destinations.sort(closeToPlayer);
+        console.log(destinations);
 
-        // walkableTiles.map(tile => graph.addVertex(tile.position));
+        const graph = new WeightedGraph();
+        walkableTiles.map(tile => graph.addVertex(tile.position));
+        handleLinkTiles(graph);
 
-        // handleLinkTiles(graph);
+        const fullPath = [];
+        let partialPath;
+        for (let i = 0; i < destinations.length; i++) {
+            if (i == 0)
+                partialPath = graph.dijkstraSearch(parseInt(startPosition), parseInt(destinations[i]));
+            else
+                partialPath = graph.dijkstraSearch(parseInt(destinations[i - 1]), parseInt(destinations[i]));
 
-        // const result = graph.dijkstraSearch(parseInt(startPosition), parseInt(endPosition));
-        // console.log(result);
-        // setPath(result);
-        bestItems();
+            fullPath.push(...partialPath);
+        }
+
+        console.log(fullPath);
+        setPath(fullPath);
     }
 
     const buildMap = () => {
@@ -88,16 +109,16 @@ export function MainPage() {
 
     const changeMap = () => {
         let newWalkables = [];
-        let newDestinations = [];
+        let newpossibleDestinations = [];
         const itemTypes = items.map(item => item.name);
 
         tiles.map((tile) => {
             if (tile.type != 'tree') newWalkables.push(tile);
-            if (itemTypes.includes(tile.type)) newDestinations.push(tile);
+            if (itemTypes.includes(tile.type)) newpossibleDestinations.push(tile);
         })
 
         setWalkableTiles([...newWalkables]);
-        setDestinations([...newDestinations]);
+        setPossibleDestinations([...newpossibleDestinations]);
     }
 
     const handleSetStartPosition = (position) => {
