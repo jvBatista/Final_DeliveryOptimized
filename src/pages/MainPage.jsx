@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Map } from "../components/Map";
 import { WeightedGraph } from '../utils/graph';
+import { knapsack } from "../utils/knapsack";
+import { items, tileWeights, types } from "../utils/tileTypes";
 import bg_tile from '../assets/bg_tile.png'
 
 export function MainPage() {
@@ -13,11 +15,14 @@ export function MainPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [path, setPath] = useState([]);
 
-    const tileWeights = {
-        "floor": 1,
-        "flowers": 2,
-        "sticks": 3,
-        "rock": 5
+    const bestItems = () => {
+        const destinationItems = destinations.map(destination => destination.type);
+        const availableItems = destinationItems.map(destinationItem =>
+            items.find(item => item.name == destinationItem)
+        )
+
+        const result = knapsack(500, availableItems);
+        console.log(result)
     }
 
     const handleLinkTiles = (graph) => {
@@ -38,15 +43,16 @@ export function MainPage() {
     }
 
     const handleSearch = () => {
-        const graph = new WeightedGraph();
+        // const graph = new WeightedGraph();
 
-        walkableTiles.map(tile => graph.addVertex(tile.position));
+        // walkableTiles.map(tile => graph.addVertex(tile.position));
 
-        handleLinkTiles(graph);
+        // handleLinkTiles(graph);
 
-        const result = graph.dijkstraSearch(parseInt(startPosition), parseInt(endPosition));
-        console.log(result);
-        setPath(result);
+        // const result = graph.dijkstraSearch(parseInt(startPosition), parseInt(endPosition));
+        // console.log(result);
+        // setPath(result);
+        bestItems();
     }
 
     const buildMap = () => {
@@ -72,31 +78,9 @@ export function MainPage() {
         let newTiles = tiles;
 
         const currentType = newTiles.find(tile => tile.position == position).type;
-        let newType = "";
-
-        switch (currentType) {
-            case 'floor':
-                newType = 'tree';
-                break;
-            case 'tree':
-                newType = 'flowers';
-                break;
-            case 'flowers':
-                newType = 'sticks';
-                break;
-            case 'sticks':
-                newType = 'rock';
-                break;
-            case 'rock':
-                newType = 'pokemon';
-                break;
-            case 'pokemon':
-                newType = 'floor';
-                break;
-            default:
-                newType = 'floor';
-                break;
-        }
+        const currentTypeIndex = types.indexOf(currentType);
+        const newIndex = currentTypeIndex == types.length - 1 ? 0 : currentTypeIndex + 1;
+        let newType = types[newIndex];
 
         newTiles.find(tile => tile.position == position).type = newType;
         setTiles([...newTiles]);
@@ -105,10 +89,11 @@ export function MainPage() {
     const changeMap = () => {
         let newWalkables = [];
         let newDestinations = [];
+        const itemTypes = items.map(item => item.name);
 
         tiles.map((tile) => {
             if (tile.type != 'tree') newWalkables.push(tile);
-            else if (tile.type == 'pokemon') newDestinations.push(tile);
+            if (itemTypes.includes(tile.type)) newDestinations.push(tile);
         })
 
         setWalkableTiles([...newWalkables]);
