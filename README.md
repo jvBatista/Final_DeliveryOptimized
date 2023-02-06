@@ -1,4 +1,4 @@
-# DeliveryOptimized
+# Treasure Hunt Strategist
 
 **Número da Lista**: 18<br>
 **Conteúdo da Disciplina**: Final<br>
@@ -10,21 +10,50 @@
 | 19/0109963  |  João Victor Batista |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+O projeto Treasure Hunt Strategist se trata de um simulador/mini-game 
+onde o usuário pode montar um mapa com diversos obstáculos e recompensas. O objetivo é encher sua mochila (de capacidade limitada) com itens de valor de modo a maximizar seus lucros. 
+
+O programa faz uma seleção de quais itens colocar na mochila através de um algoritmo *knapsack* . Uma vez que os itens são escolhidos o programa então busca projetar a rota mais fácil para pegar todos os itens. Ele faz isso através de uma série de buscas *dijkstra* para achar o melhor caminho de um ponto até o próximo.
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+![image1](./src/assets/screenshots/Screenshot1.png)
+![image2](./src/assets/screenshots/Screenshot2.png)
+![image3](./src/assets/screenshots/Screenshot3.png)
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: Javascript<br>
+**Framework**: React<br>
 
-## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+## Requisitos 
+- *npm* ou *yarn*
+- node v16
 
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
+
+## Instalação
+Para instalar o projeto, bastar seguir os seguintes comandos:
+
+```
+$ git clone https://github.com/projeto-de-algoritmos/Grafos2_Farfetcher_Handshake.git
+```
+Em seguida é preciso mudar para a branch farfetcher utilizando o seguinte comando:
+```
+$ git checkout farfetcher
+```
+E instalar o projeto com o comando:
+```
+$ npm install
+```
+
+Para inicializar o projeto digite o comando:
+```
+$ npm run dev
+```
+
+ou 
+
+```
+$ yarn dev
+```
 
 
 
