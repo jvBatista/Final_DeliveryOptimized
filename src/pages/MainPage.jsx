@@ -16,9 +16,17 @@ export function MainPage() {
     const [chosenItems, setChosenItems] = useState([]);
     const [path, setPath] = useState([]);
 
+    const calcDist = (a, b) => {
+        const diff = Math.abs(a - b);
+        const ySpaces = Math.floor(diff / 10);
+        const xSpaces = diff % 10;
+
+        return ySpaces + xSpaces;
+    }
+
     const closeToPlayer = (a, b) => {
-        const distA = Math.abs(a - startPosition);
-        const distB = Math.abs(b - startPosition);
+        const distA = calcDist(a, startPosition);
+        const distB = calcDist(b, startPosition);
 
         if (distA < distB) return -1;
         else if (distA > distB) return 1;
@@ -91,12 +99,18 @@ export function MainPage() {
             className="bg-repeat font-bit font-normal h-full w-full flex flex-col items-center justify-start"
             style={{ backgroundImage: `url(${bg_tile})` }}
         >
-            <div className="w-full bg-zinc-900 flex flex-col justify-center items-center py-6">
-                <h1 className="text-center text-lg font-bold text-lime-100">
-                    Bem vindo ao Farfetcher!!!
+            <div className="w-full bg-zinc-900 flex flex-col justify-center items-center py-6 text-center">
+                <h1 className="text-lg font-bold text-lime-100">
+                    Bem vindo ao Treasure Hunt Strategist!!!
                 </h1>
-                <h2 className="w-full md:w-2/3 text-lime-100 text-center">
-                    Monte o mapa de acordo com a puzzle que você quer resolver. Troque o tipo dos qudrados clicando neles
+                <h2 className="w-1/3 text-lime-100">
+                    Popule o mapa com diferentes obstáculos e items!
+                </h2>
+                <h2 className="w-1/3 text-lime-100">
+                    Descubra quais recompensas te darão o maior lucro e qual a melhor rota pra seguir.                    
+                </h2>
+                <h2 className="w-1/3 text-lime-100">
+                    Troque o tipo dos qudrados clicando neles
                 </h2>
             </div>
 

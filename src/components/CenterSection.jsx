@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Map } from "../components/Map";
+import { map } from "../utils/defaultMap";
 import { items, types } from "../utils/tileTypes";
 
 export function CenterSection({
@@ -19,18 +20,8 @@ export function CenterSection({
     const [errorMessage, setErrorMessage] = useState("");
 
     const buildMap = () => {
-        let newTiles = [];
-        for (var i = 1; i <= 100; i++) {
-            newTiles.push(
-                {
-                    position: i,
-                    type: 'floor'
-                }
-            );
-        }
-
-        setTiles([...newTiles]);
-        setWalkableTiles([...newTiles]);
+        setTiles(map);
+        setStartPosition(91);
     }
 
     const changeTileType = (position) => {
@@ -89,7 +80,7 @@ export function CenterSection({
 
     useEffect(() => {
         changeMap();
-    }, [interactEnabled]);
+    }, [interactEnabled, tiles]);
 
 
     return (
