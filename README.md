@@ -35,10 +35,7 @@ Para instalar o projeto, bastar seguir os seguintes comandos:
 ```
 $ git clone https://github.com/jvBatista/Final_TreasureHuntStrategist.git
 ```
-Em seguida é preciso mudar para a branch farfetcher utilizando o seguinte comando:
-```
-$ git checkout farfetcher
-```
+
 E instalar o projeto com o comando:
 ```
 $ npm install
