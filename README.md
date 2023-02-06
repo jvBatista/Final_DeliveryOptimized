@@ -33,7 +33,7 @@ O programa faz uma seleção de quais itens colocar na mochila através de um al
 Para instalar o projeto, bastar seguir os seguintes comandos:
 
 ```
-$ git clone https://github.com/projeto-de-algoritmos/Grafos2_Farfetcher_Handshake.git
+$ git clone https://github.com/jvBatista/Final_TreasureHuntStrategist.git
 ```
 Em seguida é preciso mudar para a branch farfetcher utilizando o seguinte comando:
 ```
