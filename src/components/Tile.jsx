@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import flowers from '../assets/flowers.png';
 import player from '../assets/player.png';
-import rock from '../assets/rock.png';
-import floor from '../assets/floor.png';
-import sticks from '../assets/sticks.png';
-import tree from '../assets/tree.png';
 import pokeball from '../assets/pokeball.png';
-import pokemon from '../assets/pokemon.png';
-
+import { sprites } from "../utils/tileTypes";
 
 export function Tile({
     tile,
@@ -16,28 +10,20 @@ export function Tile({
     isStartTile,
     inPath
 }) {
-    const tileVariants = {
-        "floor": floor,
-        "rock": rock,
-        "flowers": flowers,
-        "sticks": sticks,
-        "pokemon": pokemon,
-        "tree": tree
-    }
-    const [mode, setMode] = useState(tile.type);
+    const [type, setType] = useState(tile.type);
 
     return (
         <button
             onClick={() => {
                 changeType(tile.position);
-                setMode(tile.type);
+                setType(tile.type);
             }}
             disabled={!isInteractive}
             className="bg-transparent h-8 w-8 md:h-12 md:w-12 flex items-center justify-center relative"
         >
 
-            {tileVariants[mode] && <img
-                src={tileVariants[mode]}
+            {sprites[type] && <img
+                src={sprites[type]}
                 alt="img"
                 className="w-full h-full"
             />}
