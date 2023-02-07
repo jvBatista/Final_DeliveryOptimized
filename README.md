@@ -20,6 +20,10 @@ O programa faz uma seleção de quais itens colocar na mochila através de um al
 ![image2](./src/assets/screenshots/Screenshot2.png)
 ![image3](./src/assets/screenshots/Screenshot3.png)
 
+## Video de Apresentação
+
+[Video](apresentacao/apresentacao_final.mp4)
+
 ## Instalação 
 **Linguagem**: Javascript<br>
 **Framework**: React<br>
